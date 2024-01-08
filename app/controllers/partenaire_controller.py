@@ -9,11 +9,11 @@ from PIL import Image
 app.config.from_object('config')
 
 
-#VARIABLES
+#CONSTANTES
 types = ['Marchands', 'Facturiers', 'MTO']
 path = app.config['IMAGE_PATH']
 sizes = [16, 24, 32, 64]
-
+MIN_SIZE = 100
 
 #ROUTES
 @app.route('/')
@@ -111,7 +111,7 @@ def allowed_file(logo):
 def image_size_allowed(image):
    width, height = Image.open(image).size
    image.seek(0)
-   if height >= 100 and width >= 100:
+   if height >= MIN_SIZE and width >= MIN_SIZE:
       return True
    else :
       flash("Veuiller insérer une image de taille supérieure ou égale à 100x100 ", "error")
