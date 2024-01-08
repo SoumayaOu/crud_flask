@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Partenaire</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+</head>
+<body>
+      <h3>Ajout Partenaire </h3>
+      <form action="/add" method="POST" enctype="multipart/form-data">
+          <label>Code</label>
+         <input type="text" name="code" placeholder="code..."><br><br>
+         <label>Name</label>
+         <input type="text" name="name" placeholder="name..."><br><br>
+         <label>Contact </label>
+         <input type="text" name= "contact" placeholder="contact..."><br><br>
+         <label>Logo</label>
+          <input type="file" name="logo" accept=".jpg, .png, .jpeg" placeholder="logo.." required><br><br>
+          <label>Icon</label>
+         <input type="file" name="icon" accept=".jpg, .png, .jpeg" placeholder="icon.."><br><br>
+          <label for="type">Select an option:</label>
+        <select id="type" name="type">
+            {% for option in options %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+         <button type="submit">Add</button>
+      </form>
+</body>
+</html>

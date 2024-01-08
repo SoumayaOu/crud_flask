@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout Partenaire</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+</head>
+<body>
+      {% include 'Navbar.html' %}
+      <br>
+      <h2>Ajout Partenaire </h2>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <h4>{{ message }}</h4>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+      <form action="/add" method="POST" enctype="multipart/form-data">
+          <label for="type">Type*</label>
+        <select id="type" name="type">
+            {% for option in options %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+          <label>Code*</label>
+         <input type="text" name="code" placeholder="code..." required><br><br>
+         <label>Name*</label>
+         <input type="text" name="name" placeholder="name..." required><br><br>
+         <label>Contact* </label>
+         <input type="text" name= "contact" placeholder="contact..." required><br><br>
+         <label>Logo*</label>
+          <input type="file" name="logo" accept=".jpg, .png, .jpeg" placeholder="logo.." required><br><br>
+          <label>Icon*</label>
+         <input type="file" name="icon" accept=".jpg, .png, .jpeg" placeholder="icon.." ><br><br>
+
+         <button type="submit">Add</button>
+      </form>
+</body>
+</html>

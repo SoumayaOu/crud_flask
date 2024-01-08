@@ -1,0 +1,66 @@
+<html>
+<head>
+	<title>Index Page</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+	<link rel="icon" type="image/png" href="/static/images/resized/fa_cashplus_icon_64.png">
+
+</head>
+<body>
+   {% include 'Navbar.html' %}
+   <br>
+	<h2>Partenaires</h2>
+	<a href="/add_data" type="button" id="Ajout">Ajouter</a>
+	<br>
+	<table>
+		<thead>
+
+		   <th>Code</th>
+		   <th>Name</th>
+		   <th>Contact</th>
+		   <th>Logo</th>
+		   <th>Icon</th>
+		   <th>Type</th>
+		   <th> </th>
+		   <th> </th>
+
+		</thead>
+		{% for data in partenaire %}
+		<tbody>
+
+			<td>{{data.code}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.contact}}</td>
+            {% if data.logo %}
+                   <td> <img src="{{ url_for('static', filename='images/' + data.logo) }}" alt="Logo"></td>
+                {% endif %}
+                {% if data.icon %}
+                    <td><img src="{{ url_for('static', filename='images/' + data.icon) }}" alt="Icon"></td>
+                {% endif %}
+
+			<td>{{data.type}}</td>
+
+            <td>
+
+                  <a href="javascript:void(0);" onclick="confirmDelete({{ data.id }})" type="button">Supprimer</a>
+            </td>
+
+
+		    <td><a href="/put/{{data.id}}" type="button">Modifier</a></td>
+
+		</tbody>
+		{% endfor %}
+	</table>
+
+<script>
+    function confirmDelete(id) {
+
+        var deleteUrl = "/delete/" + id;
+        if (confirm("Etes-vous sure de vouloir supprimer ce partenaire ?")) {
+
+            window.location.href = deleteUrl;
+        }
+    }
+</script>
+
+</body>
+</html>
