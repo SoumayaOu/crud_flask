@@ -4,9 +4,14 @@ from flask import flash
 from app.models.partenaires import Partenaire
 import os
 from PIL import Image
-
+import glob
+from string import Template
 
 app.config.from_object('config')
+
+#VARIABLES
+Enable_sprite = True
+
 
 
 #CONSTANTES
@@ -14,6 +19,7 @@ types = ['Marchands', 'Facturiers', 'MTO']
 path = app.config['IMAGE_PATH']
 sizes = [16, 24, 32, 64]
 MIN_SIZE = 100
+css_path = app.config['CSS_PATH']
 
 #ROUTES
 @app.route('/')
@@ -54,6 +60,7 @@ def partenaire():
    db.session.add(p)
    db.session.commit()
    image_processing(p.code, p.type, p.logo, p.icon)
+
    return redirect('/')
 
 @app.route('/put/<int:id>')
@@ -81,7 +88,11 @@ def update_partenaire(id):
       icon.save(path+icon_filename)
 
    image_processing(p.code, p.type, p.logo, p.icon)
+
+
+
    db.session.commit()
+
    return redirect(url_for('index'))
 
 
@@ -96,6 +107,15 @@ def delete(id):
    db.session.commit()
    return redirect('/')
 
+
+@app.route('/sprite_gen/<string:image>')
+def sprite_generator(image):
+   for size in sizes:
+      if image == 'logo':
+         selected_images('logo', size)
+      else :
+         selected_images('icon', size)
+   return redirect('/')
 
 
 
@@ -137,4 +157,53 @@ def miniature_generator(image, size, new_name):
 
    background.paste(image, (x_position, y_position))
    background.save(path + new_name)
+
+def create_sprite(img_lst, sprite_name):
+   css_rules = []
+   sprite = Image.new("RGBA", (1024, 1024), (0, 0, 0, 0))
+   nRows = 5
+   nCols = 5
+
+   css_template = Template('''
+       .icon {
+           display: inline-block;
+           background-image: url($sprite_image_path);
+           background-repeat: no-repeat;
+       }
+       $css_rules
+       ''')
+
+   for (i, img) in enumerate(img_lst):
+      image_name = img.filename.split('/', 3)[-1].split('.', 1)[0]
+      css_name = css_path+sprite_name.split(".", 1)[0]+'.css'
+
+      img_w, img_h = img.size
+      col = i % nCols
+      row = i // nRows
+      x = col * img_w
+      y = row * img_h
+      sprite.paste(img, (int(x), int(y)))
+      sprite.save(sprite_name)
+      css_rule = f'.icon{image_name} {{\n'
+      css_rule += f'  background-position: -{x}px -{y}px;\n'
+      css_rule += f'  width: {img.width}px;\n'
+      css_rule += f'  height: {img.height}px;\n'
+      css_rule += '}\n'
+      css_rules.append(css_rule)
+
+   css_content = css_template.substitute(sprite_image_path=sprite_name, css_rules=''.join(css_rules))
+
+   with open(css_name, 'w') as css_file:
+      css_file.write(css_content)
+
+def selected_images(img_type, img_size):
+   img_lst = []
+   img_files = os.listdir(path)
+   sprite_name = "sprite_{}_{}.png".format(img_type, img_size)
+
+   for file in img_files:
+      if file.__contains__(str(img_size)) and file.__contains__(img_type):
+         image = Image.open(path + file)
+         img_lst.append(image)
+   create_sprite(img_lst, sprite_name)
 
