@@ -10,7 +10,7 @@ body {
     position: absolute;
 }
 h2 {
-    margin-top:50;
+    margin-top:70;
     text-align: center;
     color: #333;
 }
@@ -57,4 +57,8 @@ a[type="button"] {
 a[type="button"]:hover {
     background-color: #048a9a;
     color : #161716
+}
+
+#dropdownIcon   {
+   display : right;
 }

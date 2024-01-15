@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	 <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+	<title>Login</title>
+
+</head>
+<body>
+	<h2> </h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <h4>{{ message }}</h4>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+	<div class="login_img">
+	<img src="static/images/Cashpluss_logo.png" width="180" height="120" class="d-inline-block align-center" alt="">
+	</div>
+	<form action="/login" method="post">
+	<label for="email">Email :</label>
+	<input type="text" name="email" />
+	<label for="password">Password:</label>
+	<input type="password" name="password" />
+	<button type="submit">Submit</button>
+		 <a class="form-control mr-sm-2"  href="/register">Create  account</a>
+	</form>
+
+</body>
+</html>

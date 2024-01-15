@@ -6,10 +6,13 @@
 
 </head>
 <body>
-   {% include 'Navbar.html' %}
-   <br>
-	<h2>Partenaires</h2>
-	<a href="/add_data" type="button" id="Ajout">Ajouter</a>
+   {% if current_user.is_authenticated == False%}
+   {% include 'login.html' %}
+   {% else %}
+    {% include 'Navbar.html' %}
+
+	<h2>Our Partners</h2>
+	<a href="/add_data" type="button" id="Ajout">Add</a>
 	<br>
 	<table>
 		<thead>
@@ -19,13 +22,33 @@
 		   <th>Contact</th>
 		   <th>Logo</th>
 		   <th>Icon</th>
-		   <th>Type</th>
+		   <th>Type
+               <div class="dropdown-menu" aria-labelledby="typeDropdown">
+                   <a class="dropdown-item" href="/display_partner/Marchands">Marchand</a>
+				   <a class="dropdown-item" href="/display_partner/Facturiers">Facturier</a>
+				   <a class="dropdown-item" href="/display_partner/MTO">MTO</a>
+               </div>
+			   <a  href="#" id="typeDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+					<img  src="{{ url_for('static', filename='images/dropdown-16.png') }}" alt="dropdown">
+                </a>
+		   </th>
+
 		   <th> </th>
 		   <th> </th>
 
 		</thead>
+
 		{% for data in partenaire %}
 		<tbody>
+		{% if  not data   %}
+
+
+
+
+		<td><h2>no data </h2></td>
+		{% else %}
+
 
 			<td>{{data.code}}</td>
             <td>{{data.name}}</td>
@@ -37,20 +60,23 @@
                     <td><img src="{{ url_for('static', filename='images/' + data.icon) }}" alt="Icon"></td>
                 {% endif %}
 
-			<td>{{data.type}}</td>
+			<td>{{data.type}}
+
+			</td>
 
             <td>
 
-                  <a href="javascript:void(0);" onclick="confirmDelete({{ data.id }})" type="button">Supprimer</a>
+                  <a href="javascript:void(0);" onclick="confirmDelete({{ data.id }})" type="button">Delete</a>
             </td>
 
 
-		    <td><a href="/put/{{data.id}}" type="button">Modifier</a></td>
+		    <td><a href="/put/{{data.id}}" type="button">Update</a></td>
 
 		</tbody>
+		  {% endif %}
 		{% endfor %}
 	</table>
-
+{% endif %}
 <script>
     function confirmDelete(id) {
 
