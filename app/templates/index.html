@@ -24,15 +24,18 @@
 		   <th>Icon</th>
 		   <th>Type
                <div class="dropdown-menu" aria-labelledby="typeDropdown">
-                   <a class="dropdown-item" href="/display_partner/Marchands">Marchand</a>
-				   <a class="dropdown-item" href="/display_partner/Facturiers">Facturier</a>
-				   <a class="dropdown-item" href="/display_partner/MTO">MTO</a>
+				   {% for type in types %}
+                   <a class="dropdown-item" href="/display_partner/{{type}}">{{type}}</a>
+				   {% endfor %}
                </div>
-			   <a  href="#" id="typeDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+			   <a  href="/" id="typeDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
 					<img  src="{{ url_for('static', filename='images/dropdown-16.png') }}" alt="dropdown">
                 </a>
+
 		   </th>
+
 
 		   <th> </th>
 		   <th> </th>

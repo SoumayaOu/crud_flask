@@ -23,7 +23,8 @@ Enable_sprite = True
 #CONSTANTES
 types = ['Marchands', 'Facturiers', 'MTO']
 path = app.config['IMAGE_PATH']
-sizes = [16, 24, 32, 64]
+#sizes = [16, 24, 32, 64]
+sizes = [64, 32, 24, 16]
 MIN_SIZE = 100
 css_path = app.config['CSS_PATH']
 
@@ -35,7 +36,7 @@ css_path = app.config['CSS_PATH']
 @app.route('/')
 def index():
    partenaire = Partenaire.query.all()
-   return render_template('index.html', partenaire=partenaire)
+   return render_template('index.html', partenaire=partenaire,types=types)
 
 @app.route('/add_data')
 def add_data():
@@ -129,7 +130,7 @@ def sprite_generator(image):
 @app.route('/display_partner/<string:req_type>')
 def display_partner(req_type):
    partenaire = Partenaire.query.filter_by(type=req_type)
-   return render_template('index.html', partenaire=partenaire)
+   return render_template('index.html', partenaire=partenaire,types = types)
 
 
 @app.route('/get_miniature/<string:type>/<int:size>')
