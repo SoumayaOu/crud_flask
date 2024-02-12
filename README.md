@@ -1,6 +1,6 @@
 Gestion des partenaires : 
  
-- L’objectif principal de ce projet réside dans la gestion des partenaires de Cash plus en utilisant FLASK et l’ORM SqlAlchemy. Pour cela, nous avons procédé par l ‘implémentation d’une application CRUD qui mène à  créer, afficher, modifier et supprimer un ou plusieurs partenaires. Chaque partenaire possède un ensemble de caractéristiques qui le décrivent à savoir :
+- L’objectif principal de ce projet réside dans la gestion des partenaires en utilisant FLASK et l’ORM SqlAlchemy. Pour cela, nous avons procédé par l ‘implémentation d’une application CRUD qui mène à  créer, afficher, modifier et supprimer un ou plusieurs partenaires. Chaque partenaire possède un ensemble de caractéristiques qui le décrivent à savoir :
 
 *  Son type ( Marchands, Facturiers, MTO).
 *  Son code.
